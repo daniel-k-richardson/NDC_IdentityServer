@@ -1,0 +1,25 @@
+﻿@using Microsoft.AspNetCore.Authentication
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h1>Movies App</h1>
+<p>Boring sample app to show security by viewing, searching, and reviewing movies. Enjoy!</p>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <h1>Claims</h1>
+    <dl>
+        <dt>id_token</dt>
+        <dd>@await Context.GetTokenAsync("id_token")</dd>
+        <dt>access_token</dt>
+        <dd>@await Context.GetTokenAsync("access_token")</dd>
+
+        @foreach (var claim in User.Claims)
+        {
+            <dt>@claim.Type</dt>
+            <dd>@claim.Value</dd>
+        }
+    </dl>
+}

@@ -1,0 +1,115 @@
+﻿@model MoviesLibrary.MovieDetails
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService authorization
+
+@{
+    ViewData["Title"] = "Movie Details";
+}
+
+<div class="page-header">
+    <h1>
+        Movie Details
+        <small>
+            @Model.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div class="col-sm-3">
+        @if (Model.PosterName != null)
+        {
+            <img src="~/Posters/@Model.PosterName" />
+        }
+    </div>
+    <div class="col-sm-9">
+        <div class="row">
+            <div class="col-sm-2 details-label">Title</div>
+            <div class="col-sm-10">@Model.Title</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2 details-label">Year</div>
+            <div class="col-sm-10">@Model.Year</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2 details-label">Rating</div>
+            <div class="col-sm-10">@Model.Rating</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2 details-label">Country</div>
+            <div class="col-sm-10">@Model.CountryName</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2 details-label">Director</div>
+            <div class="col-sm-10">@Model.DirectorName</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2 details-label">Description</div>
+            <div class="col-sm-10">@Model.Description</div>
+        </div>
+    </div>
+</div>
+
+<div class="page-header">
+    <h1>
+        Reviews
+        @if (Model.AverageStars != null)
+        {
+            <small>
+                average rating
+                @Model.AverageStars.Value.ToString("F1")
+                stars
+            </small>
+        }
+    </h1>
+</div>
+@{ 
+    var authz = await authorization.AuthorizeAsync(User, Model, MoviesWebApp.Authorization.MovieOperations.Review);
+    if (authz.Succeeded)
+    {
+        <div class="row search-form">
+            <a asp-action="New" asp-controller="Review" asp-route-movieId="@Model.Id" class="btn btn-primary">Write a review</a>
+        </div>
+    }
+}
+
+@if (Model.Reviews.Any())
+{
+<div class="row">
+    <table class="table table-bordered table-condensed table-striped">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Reviewer</th>
+                <th>Stars</th>
+                <th>Comment</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var review in Model.Reviews)
+            {
+                <tr>
+                    <td style="white-space:nowrap">@review.ReviewDate.ToString("yyyy-MM-dd")</td>
+                    <td>@review.UserId</td>
+                    <td>@review.Stars</td>
+                    <td>@review.Comment</td>
+                    <td>
+                        @{ 
+                            var editAuthz = await authorization.AuthorizeAsync(User, review, MoviesWebApp.Authorization.ReviewOperations.Edit);
+                            if (editAuthz.Succeeded)
+                            {
+                                <a asp-action="Edit" asp-controller="Review" asp-route-id="@review.Id" class="btn btn-primary">edit</a>
+                            }
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+}
+else
+{
+    <div class="row">No reviews</div>
+}

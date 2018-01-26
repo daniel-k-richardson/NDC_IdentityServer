@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movies Web App</title>
+
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="/css/site.css" />
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a id="home_button" class="navbar-brand">Movies Web App</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a id="movies_button">Movies</a></li>
+                </ul>
+                <div class="navbar-right">
+                    <span id="login_status" class="navbar-text"></span>
+                    <a id="login_button" class="navbar-text"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div id="body_container">
+            <h1>Loading...</h1>
+        </div>
+        <hr />
+        <footer>
+            <p>&copy; 2016 - Movies Web App</p>
+        </footer>
+    </div>
+
+    <script src="/lib/jquery/dist/jquery.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="/lib/oidc-client/dist/oidc-client.js"></script>
+    <script src="/js/site.js"></script>
+</body>
+</html>

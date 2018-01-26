@@ -1,0 +1,12 @@
+﻿@model MoviesWebApp.ViewModels.ReviewSuccessViewModel
+
+<h1>Review @Model.Action</h1>
+<p>
+    <a asp-action="Details" 
+       asp-controller="Movie" 
+       asp-route-id="@Model.MovieId" 
+       class="btn btn-primary"
+    >
+        View reviews
+    </a>
+</p>
